@@ -72,7 +72,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${workSans.variable} ${emotionEngine.variable}`}
+        className={`${workSans.variable} ${emotionEngine.variable}`} suppressHydrationWarning
       >
         {children}
       </body>

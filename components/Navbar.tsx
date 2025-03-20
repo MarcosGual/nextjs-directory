@@ -8,7 +8,7 @@ const Navbar = async () => {
   const session = await auth();
 
   return (
-    <header className="px-5 py-3 bg-white shadow-sm font-work-sans">
+    <header className="px-5 py-3 bg-white shadow-xs font-work-sans">
       <nav className="flex justify-between items-center font-work-sans">
         <Link href="/">
           <Image src="/pslogo.png" alt="logo" width={160} height={40} />
@@ -18,7 +18,7 @@ const Navbar = async () => {
           {session && session?.user ? (
             <>
               <Link href="/game/create">
-                <span className="max-sm:hidden">Create</span>
+                <span className="max-sm:hidden">Crear</span>
                 <BadgePlus className="size-6 sm:hidden" />
               </Link>
 
@@ -30,7 +30,7 @@ const Navbar = async () => {
                 }}
               >
                 <button type="submit">
-                  <span className="max-sm:hidden">Logout</span>
+                  <span className="max-sm:hidden">Cerrar sesión</span>
                   <LogOut className="size-6 sm:hidden text-red-500" />
                 </button>
               </form>
@@ -55,7 +55,7 @@ const Navbar = async () => {
                 await signIn("github");
               }}
             >
-              <button type="submit">Login</button>
+              <button type="submit">Iniciar sesión</button>
             </form>
           )}
         </div>

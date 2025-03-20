@@ -12,7 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { createPitch } from "@/lib/actions";
 
-const StartupForm = () => {
+const GameForm = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [pitch, setPitch] = useState("");
   const { toast } = useToast();
@@ -178,4 +178,4 @@ const StartupForm = () => {
   );
 };
 
-export default StartupForm;
+export default GameForm;
