@@ -8,8 +8,8 @@ layer(base);
 @theme {
   --breakpoint-xs: 475px;
 
-  --color-primary-100: #ffe8f0;
-  --color-primary: #ee2b69;
+  --color-primary-100: #118fdb;
+  --color-primary: #13017d;
 
   --color-secondary: #fbe843;
 
@@ -30,7 +30,7 @@ layer(base);
 
   --shadow-100: 2px 2px 0px 0px rgb(0, 0, 0);
   --shadow-200: 2px 2px 0px 2px rgb(0, 0, 0);
-  --shadow-300: 2px 2px 0px 2px rgb(238, 43, 105);
+  --shadow-300: 2px 2px 0px 2px rgb(153, 204, 242);
 }
 
 /*
