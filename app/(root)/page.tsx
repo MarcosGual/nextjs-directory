@@ -9,14 +9,15 @@ export default async function Home({ searchParams }: {
 
   const posts = [
     {
+      _id: 100,
       _createdAt: new Date(),
       views: 55,
       likes: 5,
-      author: { _id: 1 },
+      author: { _id: 1, name: "unknown" },
       description: "Esta es una descripción",
       image: "https://unsplash.com/es/fotos/dos-personas-jugando-a-la-consola-de-juegos-sony-ps4-eCktzGjC-iU",
-      category: "ps2",
       title: "juego ps2",
+      category: "ps2",
       genre: "action"
     }
   ]
