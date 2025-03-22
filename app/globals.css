@@ -167,57 +167,57 @@ layer(base);
   @apply size-[50px]! rounded-full! bg-black! flex! justify-center! items-center!;
 }
 
-@utility startup-card {
-  /* startupcard */
+@utility game-card {
+  /* gamecard */
   @apply bg-white border-[5px] border-black py-6 px-5 rounded-[22px] shadow-200 hover:border-primary transition-all duration-500 hover:shadow-300 hover:bg-primary-100;
 }
 
-@utility startup-card_date {
+@utility game-card_date {
   @apply font-medium text-[16px] bg-primary-100 px-4 py-2 rounded-full group-hover:bg-white-100;
 }
 
-@utility startup-card_desc {
+@utility game-card_desc {
   @apply font-normal text-[16px] line-clamp-2 my-3 text-black-100 break-all;
 }
 
-@utility startup-card_img {
+@utility game-card_img {
   @apply w-full h-[164px] rounded-[10px] object-cover;
 }
 
-@utility startup-card_btn {
+@utility game-card_btn {
   @apply rounded-full! bg-black-200! font-medium! text-[16px]! text-white! px-5! py-3!;
 }
 
-@utility startup-card_skeleton {
+@utility game-card_skeleton {
   @apply w-full h-96 rounded-[22px] bg-zinc-400;
 }
 
-@utility startup-form {
-  /* startupform */
+@utility game-form {
+  /* gameform */
   @apply max-w-2xl mx-auto bg-white my-10 space-y-8 px-6;
 }
 
-@utility startup-form_label {
+@utility game-form_label {
   @apply font-bold text-[18px] text-black uppercase;
 }
 
-@utility startup-form_input {
+@utility game-form_input {
   @apply border-[3px]! border-black! px-5! py-7! text-[18px]! text-black! font-semibold! rounded-full! mt-3! placeholder:text-black-300!;
 }
 
-@utility startup-form_textarea {
+@utility game-form_textarea {
   @apply border-[3px]! border-black! p-5! text-[18px]! text-black! font-semibold! rounded-[20px]! mt-3! placeholder:text-black-300!;
 }
 
-@utility startup-form_error {
+@utility game-form_error {
   @apply text-red-500 mt-2 ml-5;
 }
 
-@utility startup-form_editor {
+@utility game-form_editor {
   @apply mt-3! border-[3px]! border-black! text-[18px]! text-black! font-semibold! placeholder:text-black-300!;
 }
 
-@utility startup-form_btn {
+@utility game-form_btn {
   @apply bg-primary! border-[4px]! border-black! rounded-full! p-5! min-h-[70px]! w-full! font-bold! text-[18px]!;
 }
 
