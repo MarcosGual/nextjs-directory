@@ -21,7 +21,7 @@ export const game = defineType({
         defineField({
             name: 'author',
             type: 'reference',
-            to: {type: 'author'}
+            to: { type: 'author' }
         }),
         defineField({
             name: 'views',
@@ -32,17 +32,31 @@ export const game = defineType({
             type: 'number'
         }),
         defineField({
+            name: 'rating',
+            type: 'number',
+            validation: (Rule) => Rule.min(0).max(5).error('Por favor ingrese un valor entre 0 y 5...')
+        }),
+        defineField({
             name: 'description',
             type: 'text'
         }),
         defineField({
-            name: 'category',
-            type: 'string',
-            validation: (Rule) => Rule.min(1).max(20).required().error('Por favor ingrese la categoría...')
+            name: 'releaseYear',
+            type: 'number',
+            validation: (Rule) => Rule.min(1950).max(2400).error('Por favor ingrese un año válido de lanzamiento...')
+        }),
+        defineField({
+            name: "categories",
+            title: "Categories",
+            type: "array",
+            of: [{ type: "string" }],
+            options: {
+                layout: "tags", // Permite ingresar valores como etiquetas
+            },
         }),
         defineField({
             name: 'image',
-            type: 'string',
+            type: 'url',
             validation: (Rule) => Rule.required()
         }),
         defineField({
@@ -50,10 +64,5 @@ export const game = defineType({
             type: 'string',
             validation: (Rule) => Rule.min(3).max(20).required().error('Por favor ingrese un género...')
         }),
-    ],
-    preview: {
-        select: {
-            title: 'name'
-        }
-    }
+    ]
 })

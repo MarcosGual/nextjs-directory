@@ -31,6 +31,20 @@ export const author = defineType({
             name: 'bio',
             type: 'string'
         }),
+        defineField({
+            name: "likedGames",
+            title: "Liked Games",
+            type: "array",
+            of: [
+                {
+                  type: "object",
+                  fields: [
+                    { name: "game", title: "Game", type: "reference", to: [{ type: "game" }] },
+                    { name: "likedAt", title: "Liked At", type: "datetime" },
+                  ],
+                },
+              ],
+          },)
     ],
     preview: {
         select: {
