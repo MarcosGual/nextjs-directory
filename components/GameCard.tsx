@@ -17,12 +17,12 @@ export type GameCardType = {
     _id: number;
     name: string;
   };
-  category: string;
+  categories: [string];
   genre: string;
 }
 
 const GameCard = ({ post }: { post: GameCardType }) => {
-  const { _createdAt, views, title, description, likes, author: { _id: authorId, name }, category, _id, image } = post;
+  const { _createdAt, views, title, description, likes, author: { _id: authorId, name }, categories, _id, image } = post;
 
   return (
     <li className='game-card group'>
@@ -62,8 +62,8 @@ const GameCard = ({ post }: { post: GameCardType }) => {
       </Link>
 
       <div className='flex-between gap-3 mt-5'>
-        <Link href={`/?query=${category.toLowerCase()}`}>
-          <p className="text-16-medium">{category}</p>
+        <Link href={`/?query=${categories[0].toLowerCase()}`}>
+          <p className="text-16-medium">{categories[0]}</p>
         </Link>
         <Button className='game-card_btn' asChild>
           <Link href={`/game/${_id}`}>

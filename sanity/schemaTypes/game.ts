@@ -38,7 +38,7 @@ export const game = defineType({
         }),
         defineField({
             name: 'description',
-            type: 'text'
+            type: 'markdown'
         }),
         defineField({
             name: 'releaseYear',
@@ -51,7 +51,7 @@ export const game = defineType({
             type: "array",
             of: [{ type: "string" }],
             options: {
-                layout: "tags", // Permite ingresar valores como etiquetas
+                layout: "tags", 
             },
         }),
         defineField({
@@ -60,9 +60,13 @@ export const game = defineType({
             validation: (Rule) => Rule.required()
         }),
         defineField({
-            name: 'genre',
-            type: 'string',
-            validation: (Rule) => Rule.min(3).max(20).required().error('Por favor ingrese un género...')
+            name: "genre",
+            title: "Genre",
+            type: "array",
+            of: [{ type: "string" }],
+            options: {
+                layout: "tags", 
+            },
         }),
     ]
 })
