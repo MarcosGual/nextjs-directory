@@ -43,7 +43,7 @@ export const game = defineType({
         defineField({
             name: 'releaseYear',
             type: 'number',
-            validation: (Rule) => Rule.min(1950).max(2400).error('Por favor ingrese un año válido de lanzamiento...')
+            validation: (Rule) => Rule.min(1900).max(2500).error('Por favor ingrese un año válido de lanzamiento...')
         }),
         defineField({
             name: "categories",
