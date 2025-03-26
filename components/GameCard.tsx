@@ -59,13 +59,13 @@ const GameCard = ({ post }: { post: GameCardType }) => {
         <p className='game-card_desc'>
           {description}
         </p>
-        <img src={image||"https://placehold.co/640x480.png"} alt='placeholder' className='game-card_img' />
+        <img src={image || "https://placehold.co/640x480.png"} alt='placeholder' className='game-card_img' />
       </Link>
 
       <div className='flex-between gap-3 mt-5'>
-        {categories ? <Link href={`/?query=${categories[0].toLowerCase()}`}>
-          <p className="text-16-medium">{categories[0]}</p>
-        </Link> : 'other'}
+        <Link href={`/?query=${categories ? categories[0].toLowerCase() : '/'}`}>
+          <p className="text-16-medium">{categories ? categories[0] : 'other'}</p>
+        </Link>
         <Button className='game-card_btn' asChild>
           <Link href={`/game/${_id}`}>
             Detalles

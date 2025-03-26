@@ -8,8 +8,9 @@ export default async function Home({ searchParams }: {
   searchParams: Promise<{ query?: string }>
 }) {
   const query = (await searchParams).query;
-
-  const {data: posts} = await sanityFetch({query: GAMES_QUERY});
+  console.log(query)
+  const params = {search: query || null}
+  const {data: posts} = await sanityFetch({query: GAMES_QUERY, params});
 
   return (
     <>
