@@ -63,9 +63,15 @@ const GameCard = ({ post }: { post: GameCardType }) => {
       </Link>
 
       <div className='flex-between gap-3 mt-5'>
-        <Link href={`/?query=${categories ? categories[0].toLowerCase() : '/'}`}>
-          <p className="text-16-medium">{categories ? categories[0] : 'other'}</p>
-        </Link>
+        {categories && categories.map((category, index) => {
+          return (
+            <Link key={index} href={`/?query=${category.toLowerCase()}`}>
+              {/* <p className="text-16-medium">{category}</p> */}
+              <span className="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-blue-900 dark:text-blue-300">
+                #{category}
+              </span>
+            </Link>)
+        })}
         <Button className='game-card_btn' asChild>
           <Link href={`/game/${_id}`}>
             Detalles
