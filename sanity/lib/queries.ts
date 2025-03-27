@@ -34,9 +34,16 @@ export const STARTUP_BY_ID_QUERY = `
   },
     views, 
     likes,
+    shortDesc,
     description,
     categories,
     rating,
     image,
     genre
 }`
+
+export const GAME_VIEWS_QUERY = defineQuery(`
+  *[_type == "game" && _id == $id][0]{
+    _id, views  
+  }
+`);

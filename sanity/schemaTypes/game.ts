@@ -37,6 +37,10 @@ export const game = defineType({
             validation: (Rule) => Rule.min(0).max(5).error('Por favor ingrese un valor entre 0 y 5...')
         }),
         defineField({
+            name: 'shortDesc',
+            type: 'text'
+        }),
+        defineField({
             name: 'description',
             type: 'markdown'
         }),
