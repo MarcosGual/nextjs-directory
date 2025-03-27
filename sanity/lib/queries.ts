@@ -28,7 +28,7 @@ export const STARTUP_BY_ID_QUERY = `
   _id,
   title,
   slug,
-  _createdAr,
+  _createdAt,
   author -> {
     _id, name, username, image, bio
   },
