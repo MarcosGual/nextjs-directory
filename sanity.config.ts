@@ -27,4 +27,13 @@ export default defineConfig({
     visionTool({ defaultApiVersion: apiVersion }),
     markdownSchema()
   ],
+  acl: {
+    rules: [
+      {
+        role: "authenticated",
+        grant: ["read", "create", "update"],
+        document: { _type: "author" }, // 👈 Asegura permisos para crear "author"
+      },
+    ],
+  },
 })

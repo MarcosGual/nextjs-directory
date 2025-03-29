@@ -1,4 +1,5 @@
 
+import { auth } from "@/auth";
 import GameCard, { GameCardType } from "@/components/GameCard";
 import SearchForm from "@/components/SearchForm";
 import { sanityFetch, SanityLive } from "@/sanity/lib/live";
@@ -8,8 +9,12 @@ export default async function Home({ searchParams }: {
   searchParams: Promise<{ query?: string }>
 }) {
   const query = (await searchParams).query;
-  const params = {search: query || null}
-  const {data: posts} = await sanityFetch({query: GAMES_QUERY, params});
+  const params = { search: query || null }
+  const { data: posts } = await sanityFetch({ query: GAMES_QUERY, params });
+
+  // const session = await auth();
+
+  // if (session) console.log('sesión:', session, session.id);
 
   return (
     <>

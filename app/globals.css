@@ -2,6 +2,7 @@
 layer(base);
 
 @import 'tailwindcss';
+@plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -245,6 +246,10 @@ layer(base);
   background-size: 5% 100%;
   background-position: center;
   background-repeat: repeat-x;
+}
+
+@utility tag {
+  @apply bg-secondary px-6 py-3 font-work-sans font-bold rounded-sm uppercase relative tag-tri;
 }
 
 @utility tag-tri {

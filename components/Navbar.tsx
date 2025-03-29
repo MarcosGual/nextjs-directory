@@ -18,7 +18,7 @@ const Navbar = async () => {
           {session && session?.user ? (
             <>
               <Link href="/game/create">
-                <span className="max-sm:hidden">Crear</span>
+                <span className="max-sm:hidden">Cargar Juego</span>
                 <BadgePlus className="size-6 sm:hidden" />
               </Link>
 

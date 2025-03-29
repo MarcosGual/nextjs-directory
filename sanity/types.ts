@@ -166,6 +166,7 @@ export type Game = {
   views?: number;
   likes?: number;
   rating?: number;
+  shortDesc?: string;
   description?: string;
   releaseYear?: number;
   categories?: Array<string>;

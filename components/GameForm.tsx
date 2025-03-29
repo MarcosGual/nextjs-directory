@@ -1,179 +1,74 @@
 "use client";
 
-import React, { useState, useActionState } from "react";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { useState } from "react";
+import { Input } from "./ui/input";
+import { Textarea } from "./ui/textarea";
 import MDEditor from "@uiw/react-md-editor";
-import { Button } from "@/components/ui/button";
+import { Button } from "./ui/button";
 import { Send } from "lucide-react";
-import { formSchema } from "@/lib/validation";
-import { z } from "zod";
-import { useToast } from "@/hooks/use-toast";
-import { useRouter } from "next/navigation";
-import { createPitch } from "@/lib/actions";
+
+interface errors {
+  title: string,
+  desc: string
+}
 
 const GameForm = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [pitch, setPitch] = useState("");
-  const { toast } = useToast();
-  const router = useRouter();
+  const [description, setDescription] = useState("");
 
-  const handleFormSubmit = async (prevState: any, formData: FormData) => {
-    try {
-      const formValues = {
-        title: formData.get("title") as string,
-        description: formData.get("description") as string,
-        category: formData.get("category") as string,
-        link: formData.get("link") as string,
-        pitch,
-      };
-
-      await formSchema.parseAsync(formValues);
-
-      const result = await createPitch(prevState, formData, pitch);
-
-      if (result.status == "SUCCESS") {
-        toast({
-          title: "Success",
-          description: "Your startup pitch has been created successfully",
-        });
-
-        router.push(`/startup/${result._id}`);
-      }
-
-      return result;
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        const fieldErorrs = error.flatten().fieldErrors;
-
-        setErrors(fieldErorrs as unknown as Record<string, string>);
-
-        toast({
-          title: "Error",
-          description: "Please check your inputs and try again",
-          variant: "destructive",
-        });
-
-        return { ...prevState, error: "Validation failed", status: "ERROR" };
-      }
-
-      toast({
-        title: "Error",
-        description: "An unexpected error has occurred",
-        variant: "destructive",
-      });
-
-      return {
-        ...prevState,
-        error: "An unexpected error has occurred",
-        status: "ERROR",
-      };
-    }
-  };
-
-  const [state, formAction, isPending] = useActionState(handleFormSubmit, {
-    error: "",
-    status: "INITIAL",
-  });
+  const isPending = false;
 
   return (
-    <form action={formAction} className="startup-form">
+    <form action={() => { }} className="game-form">
       <div>
-        <label htmlFor="title" className="startup-form_label">
-          Title
-        </label>
-        <Input
-          id="title"
-          name="title"
-          className="startup-form_input"
-          required
-          placeholder="Startup Title"
-        />
+        <label htmlFor="title" className="game-form_label">Título</label>
+        <Input id="title" name="title" className="game-form_input" required placeholder="Título del Juego" />
 
-        {errors.title && <p className="startup-form_error">{errors.title}</p>}
+        {errors.title && <p>{errors.title}</p>}
       </div>
-
       <div>
-        <label htmlFor="description" className="startup-form_label">
-          Description
-        </label>
-        <Textarea
-          id="description"
-          name="description"
-          className="startup-form_textarea"
-          required
-          placeholder="Startup Description"
-        />
+        <label htmlFor="shortDescription" className="game-form_label">Descripción Corta</label>
+        <Textarea id="shortDesc" name="shortDesc" className="game-form_textarea" required placeholder="Descripción corta" />
 
-        {errors.description && (
-          <p className="startup-form_error">{errors.description}</p>
-        )}
+        {errors.shortDesc && <p>{errors.shortDesc}</p>}
       </div>
-
       <div>
-        <label htmlFor="category" className="startup-form_label">
-          Category
-        </label>
-        <Input
-          id="category"
-          name="category"
-          className="startup-form_input"
-          required
-          placeholder="Startup Category (Tech, Health, Education...)"
-        />
+        <label htmlFor="categories" className="game-form_label">Categorías</label>
+        <Input id="categories" name="categories" className="game-form_input" required placeholder="Categorías (PS, PS2, DC, GBA, ETC)" />
 
-        {errors.category && (
-          <p className="startup-form_error">{errors.category}</p>
-        )}
+        {errors.categories && <p>{errors.categories}</p>}
       </div>
-
       <div>
-        <label htmlFor="link" className="startup-form_label">
-          Image URL
-        </label>
-        <Input
-          id="link"
-          name="link"
-          className="startup-form_input"
-          required
-          placeholder="Startup Image URL"
-        />
+        <label htmlFor="link" className="game-form_label">URL de la Imagen</label>
+        <Input id="link" name="link" className="game-form_input" required placeholder="https://www.link-de-la-imagen.com" />
 
-        {errors.link && <p className="startup-form_error">{errors.link}</p>}
+        {errors.link && <p>{errors.link}</p>}
       </div>
-
       <div data-color-mode="light">
-        <label htmlFor="pitch" className="startup-form_label">
-          Pitch
-        </label>
-
+        <label htmlFor="description" className="game-form_label">Descripción</label>
+        {/* <Textarea id="description" name="description" className="game-form_textarea" required placeholder="Descripción" /> */}
         <MDEditor
-          value={pitch}
-          onChange={(value) => setPitch(value as string)}
-          id="pitch"
+          value={description}
+          onChange={(value) => setDescription(value as string)}
+          id="description"
           preview="edit"
           height={300}
-          style={{ borderRadius: 20, overflow: "hidden" }}
+          style={{ borderRadius: 20, overflow: 'hidden' }}
           textareaProps={{
-            placeholder:
-              "Briefly describe your idea and what problem it solves",
+            placeholder: "Describí el juego que estás agregando..."
           }}
           previewOptions={{
-            disallowedElements: ["style"],
+            disallowedElements: ["style"]
           }}
         />
-
-        {errors.pitch && <p className="startup-form_error">{errors.pitch}</p>}
+        {errors.description && <p>{errors.description}</p>}
       </div>
 
-      <Button
-        type="submit"
-        className="startup-form_btn text-white"
-        disabled={isPending}
-      >
-        {isPending ? "Submitting..." : "Submit Your Pitch"}
+      <Button type="submit" className="game-form_btn" disabled={isPending}>
+        {isPending ? "Enviando..." : "Agregar Juego"}
         <Send className="size-6 ml-2" />
       </Button>
+
     </form>
   );
 };
