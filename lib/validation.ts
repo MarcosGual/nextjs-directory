@@ -2,8 +2,8 @@ import { z } from "zod";
 
 export const formSchema = z.object({
   title: z.string().min(3).max(100),
-  description: z.string().min(20).max(500),
-  category: z.string().min(3).max(20),
+  shortDesc: z.string().min(20).max(500),
+  categories: z.array(z.string()).min(3, "Debes seleccionar al menos una categoría..."),
   link: z
     .string()
     .url()
@@ -17,5 +17,6 @@ export const formSchema = z.object({
         return false;
       }
     }),
-  pitch: z.string().min(10),
+  description: z.string().min(20),
+  genres: z.array(z.string()).min(1, "Debes agregar al menos un género..."),
 });
