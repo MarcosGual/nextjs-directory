@@ -7,6 +7,10 @@ import MDEditor from "@uiw/react-md-editor";
 import { Button } from "./ui/button";
 import { Send } from "lucide-react";
 import { formSchema } from "@/lib/validation";
+import { z } from "zod";
+import { Toaster } from "@/components/ui/sonner"
+import { toast } from 'sonner';
+// import { useRouter } from "next/router";
 
 const categoriesList: string[] = ['PS', 'PS1', 'PS2', 'PS3', 'PC', 'NES', 'SNES', 'N64', 'GB', 'GBA', 'NS', 'XBOX']
 const genresList: string[] = ['horror', 'survival-horror']
@@ -20,11 +24,13 @@ const GameForm = () => {
   const [genres, setGenres] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState("");
 
+  // const router = useRouter();
+
   const handleFormSubmit = async (prevState: any, formData: FormData) => {
     try {
       const formValues = {
         title: formData.get("title") as string,
-        shortDesc: formData.get("shortDesc") as string,
+        shortDescription: formData.get("shortDescription") as string,
         categories: selectedCategories as string[],
         description: formData.get('description') as string,
         genres,
@@ -38,17 +44,32 @@ const GameForm = () => {
       console.log(formValues)
 
       // if (result.status == "SUCCESS") {
-      //   toast({
-      //     title: "Success",
-      //     description: "Your startup pitch has been created successfully",
-      //   });
+      //   toast.success("Exito", {
+      //     description: "El juego ha sido creado exitosamente...",
+      //     style: { backgroundColor: '#3da008', borderColor: 'white', color: 'white' },
+      //     icon: '✅',
+      //    closeButton: true
+      //   })
 
-      //   router.push(`/startup/${result._id}`);
+      //   router.push(`/game/${result._id}`);
       // }
 
       // return result;
     } catch (error) {
-      error instanceof Error ? console.log('Error en formulario - ' + error.message) : console.log('Error en formulario');
+      if (error instanceof z.ZodError) {
+        const fieldErorrs = error.flatten().fieldErrors;
+
+        setErrors(fieldErorrs as unknown as Record<string, string>);
+
+        toast.error("Error", {
+          description: "Por favor chequear inputs e intentar nuevamente...",
+          style: { backgroundColor: '#e35747', borderColor: 'white', color: 'white' },
+          icon: '❌',
+          closeButton: true
+        })
+
+        return { ...prevState, error: "Validation failed", status: "ERROR" };
+      }
     } finally {
 
     }
@@ -80,7 +101,8 @@ const GameForm = () => {
   };
 
   return (
-    <form action={() => { }} className="game-form">
+    <form action={formAction} className="game-form">
+      <Toaster />
       <div>
         <label htmlFor="title" className="game-form_label">Título</label>
         <Input id="title" name="title" className="game-form_input" required placeholder="Título del Juego" />
@@ -89,16 +111,10 @@ const GameForm = () => {
       </div>
       <div>
         <label htmlFor="shortDescription" className="game-form_label">Descripción Corta</label>
-        <Textarea id="shortDesc" name="shortDesc" className="game-form_textarea" required placeholder="Descripción corta" />
+        <Textarea id="shortDescription" name="shortDescription" className="game-form_textarea" required placeholder="Descripción corta" />
 
-        {errors.shortDesc && <p>{errors.shortDesc}</p>}
+        {errors.shortDescription && <p>{errors.shortDescription}</p>}
       </div>
-      {/* <div>
-        <label htmlFor="categories" className="game-form_label">Categorías</label>
-        <Input id="categories" name="categories" className="game-form_input" required placeholder="Categorías (PS, PS2, DC, GBA, ETC)" />
-
-        {errors.categories && <p>{errors.categories}</p>}
-      </div> */}
       <div className="flex flex-wrap gap-2">
         <label htmlFor="categories" className="game-form_label">Categorías</label>
         <select
@@ -113,7 +129,7 @@ const GameForm = () => {
             <option key={category} value={category}>{category}</option>
           ))}
         </select>
-        <div className="flex flex-wrap gap-2 mt-3">
+        <div className="flex flex-wrap gap-2 mt-3 w-full">
           {selectedCategories.map((category) => (
             <div key={category} className="flex items-center bg-black text-white text-sm font-semibold px-3 py-1 rounded-full">
               {category}
@@ -126,6 +142,7 @@ const GameForm = () => {
             </div>
           ))}
         </div>
+        {errors.categories && <p>{errors.categories}</p>}
       </div>
       <div>
         <label htmlFor="link" className="game-form_label">URL de la Imagen</label>
@@ -135,19 +152,20 @@ const GameForm = () => {
       </div>
       <div data-color-mode="light">
         <label htmlFor="description" className="game-form_label">Descripción</label>
-        {/* <Textarea id="description" name="description" className="game-form_textarea" required placeholder="Descripción" /> */}
         <MDEditor
           value={description}
           onChange={(value) => setDescription(value as string)}
-          id="description"
+          // id="description"
           preview="edit"
           height={300}
           style={{ borderRadius: 20, overflow: 'hidden', marginTop: 5 }}
           textareaProps={{
+            name: "description",
             placeholder: "Describí el juego que estás agregando...",
             autoCapitalize: "none",
             autoComplete: "off",
             spellCheck: false,
+            id: "description"
           }}
           previewOptions={{
             disallowedElements: ["style"],
@@ -158,7 +176,7 @@ const GameForm = () => {
       </div>
 
       <div>
-        <label className="game-form_label">Géneros</label>
+        <label className="game-form_label" htmlFor="genres">Géneros</label>
         <Input type="text"
           name="genres"
           id="genres"
@@ -184,6 +202,7 @@ const GameForm = () => {
             </span>
           ))}
         </div>
+        {errors.genres && <p>{errors.genres}</p>}
       </div>
 
       <Button type="submit" className="game-form_btn" disabled={isPending}>

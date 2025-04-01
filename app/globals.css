@@ -18,6 +18,9 @@ layer(base);
   --color-black-300: #7d8087;
   --color-black: #000000;
 
+  --color-red: #fb2c36;
+  --color-red-transparent: #fb2c36c0;
+
   --color-white-100: #f7f7f7;
   --color-white: #ffffff;
 
