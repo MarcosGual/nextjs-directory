@@ -1,7 +1,7 @@
 import React from "react";
 import { client } from "@/sanity/lib/client";
 import { GAMES_BY_AUTHOR_QUERY } from "@/sanity/lib/queries";
-import GameCard, { GameTypeCard } from "@/components/GameCard";
+import GameCard, { GameCardType } from "@/components/GameCard";
 
 const UserGames = async ({ id }: { id: string }) => {
   const games = await client.fetch(GAMES_BY_AUTHOR_QUERY, { id });
@@ -9,11 +9,11 @@ const UserGames = async ({ id }: { id: string }) => {
   return (
     <>
       {games.length > 0 ? (
-        games.map((game: GameTypeCard) => (
+        games.map((game: GameCardType) => (
           <GameCard key={game._id} post={game} />
         ))
       ) : (
-        <p className="no-result">No posts yet</p>
+        <p className="no-result">Todavía no cargó ningún juego...</p>
       )}
     </>
   );

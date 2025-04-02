@@ -45,9 +45,11 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
                                 <p className="text-16-medium !text-black-300">@{post.author?.username}</p>
                             </div>
                         </Link>
-
-                        {post.categories?.map((category: string, index: number) => <p key={index} className='category-tag'>{category}</p>)}
+                        <div className='flex flex-row justify-between gap-1'>
+                            {post.categories?.map((category: string, index: number) => <p key={index} className='category-tag'>#{category}</p>)}
+                        </div>
                     </div>
+
                 </div>
 
                 <h3 className="text-30-bold">Descripción</h3>
