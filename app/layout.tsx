@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import "easymde/dist/easymde.min.css";
+import { Toaster } from "@/components/ui/sonner";
 
 const emotionEngine = localFont({
   src: "./fonts/EmotionEngine-8ynA.ttf",
@@ -76,6 +77,7 @@ export default function RootLayout({
         className={`${workSans.variable} ${emotionEngine.variable}`} suppressHydrationWarning
       >
         {children}
+        <Toaster />
       </body>
     </html>
   );

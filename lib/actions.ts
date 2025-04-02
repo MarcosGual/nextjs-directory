@@ -5,10 +5,10 @@ import { parseServerActionResponse } from "@/lib/utils";
 import slugify from "slugify";
 import { writeClient } from "@/sanity/lib/write-client";
 
-export const createPitch = async (
+export const createDescription = async (
   state: any,
   form: FormData,
-  pitch: string,
+  formValues: any
 ) => {
   const session = await auth();
 
@@ -18,18 +18,22 @@ export const createPitch = async (
       status: "ERROR",
     });
 
-  const { title, description, category, link } = Object.fromEntries(
-    Array.from(form).filter(([key]) => key !== "pitch"),
+  const { title, link } = Object.fromEntries(
+    Array.from(form).filter(([key]) => (key !== "description")),
   );
+
+  const {categories, genre, shortDesc, releaseYear, description} = formValues;
 
   const slug = slugify(title as string, { lower: true, strict: true });
 
   try {
-    const startup = {
+    const game = {
       title,
-      description,
-      category,
+      shortDesc,
+      categories,
       image: link,
+      genre,
+      releaseYear,
       slug: {
         _type: slug,
         current: slug,
@@ -38,10 +42,12 @@ export const createPitch = async (
         _type: "reference",
         _ref: session?.id,
       },
-      pitch,
+      description,
     };
 
-    const result = await writeClient.create({ _type: "startup", ...startup });
+    console.log('game to save: ', game)
+
+    const result = await writeClient.create({ _type: "game", ...game });
 
     return parseServerActionResponse({
       ...result,

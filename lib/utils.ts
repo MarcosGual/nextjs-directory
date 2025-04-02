@@ -17,3 +17,7 @@ export function formatLongDate(date: Date) {
 export function formatShortDate(date: Date) {
   return new Date(date).toLocaleDateString('es-AR');
 }
+
+export function parseServerActionResponse<T>(response: T){
+  return JSON.parse(JSON.stringify(response));
+}

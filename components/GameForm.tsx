@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useState } from "react";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import MDEditor from "@uiw/react-md-editor";
@@ -8,9 +8,9 @@ import { Button } from "./ui/button";
 import { Send } from "lucide-react";
 import { formSchema } from "@/lib/validation";
 import { z } from "zod";
-import { Toaster } from "@/components/ui/sonner"
 import { toast } from 'sonner';
-// import { useRouter } from "next/router";
+import { createDescription } from "@/lib/actions";
+import { useRouter } from "next/navigation";
 
 const categoriesList: string[] = ['PS', 'PS1', 'PS2', 'PS3', 'PC', 'NES', 'SNES', 'N64', 'GB', 'GBA', 'NS', 'XBOX']
 const genresList: string[] = ['horror', 'survival-horror']
@@ -24,37 +24,40 @@ const GameForm = () => {
   const [genres, setGenres] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState("");
 
-  // const router = useRouter();
+  const router = useRouter();
 
   const handleFormSubmit = async (prevState: any, formData: FormData) => {
     try {
       const formValues = {
         title: formData.get("title") as string,
-        shortDescription: formData.get("shortDescription") as string,
+        shortDesc: formData.get("shortDescription") as string,
+        releaseYear: Number(formData.get("release")) as number,
         categories: selectedCategories as string[],
-        description: formData.get('description') as string,
-        genres,
+        description,
+        genre: genres,
         link: formData.get('link') as string,
       }
 
       await formSchema.parseAsync(formValues);
 
-      // const result = await createIdea(prevState, formData, description);
+      console.log('formulario:', formValues)
 
-      console.log(formValues)
+      const result = await createDescription(prevState, formData, formValues);
 
-      // if (result.status == "SUCCESS") {
-      //   toast.success("Exito", {
-      //     description: "El juego ha sido creado exitosamente...",
-      //     style: { backgroundColor: '#3da008', borderColor: 'white', color: 'white' },
-      //     icon: '✅',
-      //    closeButton: true
-      //   })
+      console.log('status', result)
 
-      //   router.push(`/game/${result._id}`);
-      // }
+      if (result.status == "SUCCESS") {
+        toast.success("Juego Guardado", {
+          description: "El juego ha sido creado exitosamente...",
+          style: { backgroundColor: '#3da008', borderColor: 'white', color: 'white' },
+          icon: '✅',
+          closeButton: true
+        })
 
-      // return result;
+        if (router) router.push(`/game/${result._id}`);
+      }
+
+      return result;
     } catch (error) {
       if (error instanceof z.ZodError) {
         const fieldErorrs = error.flatten().fieldErrors;
@@ -102,7 +105,6 @@ const GameForm = () => {
 
   return (
     <form action={formAction} className="game-form">
-      <Toaster />
       <div>
         <label htmlFor="title" className="game-form_label">Título</label>
         <Input id="title" name="title" className="game-form_input" required placeholder="Título del Juego" />
@@ -149,6 +151,12 @@ const GameForm = () => {
         <Input id="link" name="link" className="game-form_input" required placeholder="https://www.link-de-la-imagen.com" />
 
         {errors.link && <p>{errors.link}</p>}
+      </div>
+      <div>
+        <label htmlFor="release" className="game-form_label">Año de Publicación</label>
+        <Input id="release" name="release" className="game-form_input" type="number" required placeholder="1999" />
+
+        {errors.release && <p>{errors.release}</p>}
       </div>
       <div data-color-mode="light">
         <label htmlFor="description" className="game-form_label">Descripción</label>
