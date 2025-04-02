@@ -12,10 +12,6 @@ export default async function Home({ searchParams }: {
   const params = { search: query || null }
   const { data: posts } = await sanityFetch({ query: GAMES_QUERY, params });
 
-  // const session = await auth();
-
-  // if (session) console.log('sesión:', session, session.id);
-
   return (
     <>
       <section className="blue_container">
