@@ -31,7 +31,7 @@ const Navbar = async () => {
               >
                 <button type="submit">
                   <span className="max-sm:hidden">Cerrar sesión</span>
-                  <LogOut className="size-6 sm:hidden text-red-500" />
+                  <LogOut className="size-6 sm:hidden text-blue-500 mt-1.5" />
                 </button>
               </form>
 
