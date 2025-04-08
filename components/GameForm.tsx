@@ -13,7 +13,6 @@ import { createDescription } from "@/lib/actions";
 import { useRouter } from "next/navigation";
 
 const categoriesList: string[] = ['PS', 'PS1', 'PS2', 'PS3', 'PC', 'NES', 'SNES', 'N64', 'GB', 'GBA', 'NS', 'XBOX']
-const genresList: string[] = ['horror', 'survival-horror']
 
 const formInitialState = { error: '', status: 'INITIAL' }
 

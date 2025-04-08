@@ -1,10 +1,11 @@
-import { formatShortDate } from '@/lib/utils';
+import { cn, formatShortDate } from '@/lib/utils';
 import { EyeIcon, ThumbsUp } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react'
 import { Button } from './ui/button';
 import { Author, Game } from '@/sanity/types';
+import { Skeleton } from './ui/skeleton';
 
 export type GameCardType = Omit<Game, 'author'> & { author: Author };
 
@@ -82,5 +83,15 @@ const GameCard = ({ post }: { post: GameCardType }) => {
     </li>
   )
 }
+
+export const GameCardSkeleton = () => (
+  <>
+    {[0, 1, 2, 3, 4].map((index: number) => (
+      <li key={cn('skeleton', index)}>
+        <Skeleton className='game-card_skeleton' />
+      </li>
+    ))}
+  </>
+)
 
 export default GameCard;
