@@ -4,11 +4,12 @@ import { auth } from "@/auth";
 import { parseServerActionResponse } from "@/lib/utils";
 import slugify from "slugify";
 import { writeClient } from "@/sanity/lib/write-client";
+import { FormState } from "@/components/GameForm";
 
 export const createDescription = async (
-  state: any,
+  state: FormState,
   form: FormData,
-  formValues: any
+  formValues: { title: string, categories: string[], genre: string[], shortDesc: string, releaseYear: number, description: string }
 ) => {
   const session = await auth();
 
@@ -22,7 +23,7 @@ export const createDescription = async (
     Array.from(form).filter(([key]) => (key !== "description")),
   );
 
-  const {categories, genre, shortDesc, releaseYear, description} = formValues;
+  const { categories, genre, shortDesc, releaseYear, description } = formValues;
 
   const slug = slugify(title as string, { lower: true, strict: true });
 

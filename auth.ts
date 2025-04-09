@@ -4,7 +4,7 @@ import { client } from "./sanity/lib/client"
 import { writeClient } from "./sanity/lib/write-client"
 import { AUTHOR_BY_GITHUB_ID_QUERY } from "./sanity/lib/queries"
 
-export const { handlers, signIn, signOut, auth } = NextAuth({
+export const { auth, handlers, signIn, signOut } = NextAuth({
     providers: [
         GitHub({
             clientId: process.env.GITHUB_ID,
@@ -14,24 +14,28 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     callbacks: { // 🔥 Aquí está la corrección (antes era "callback")
         async signIn({
             user: { name, email, image },
-            profile: { id, login, bio },
+            profile,
         }) {
-            const existingUser = await client
-                .withConfig({ useCdn: false })
-                .fetch(AUTHOR_BY_GITHUB_ID_QUERY, {
-                    id,
-                });
+            if (profile) {
+                const { id, login, bio } = profile;
 
-            if (!existingUser) {
-                await writeClient.create({
-                    _type: "author",
-                    id,
-                    name,
-                    username: login,
-                    email,
-                    image,
-                    bio: bio || "",
-                });
+                const existingUser = await client
+                    .withConfig({ useCdn: false })
+                    .fetch(AUTHOR_BY_GITHUB_ID_QUERY, {
+                        id,
+                    });
+
+                if (!existingUser) {
+                    await writeClient.create({
+                        _type: "author",
+                        id,
+                        name,
+                        username: login,
+                        email,
+                        image,
+                        bio: bio || "",
+                    });
+                }
             }
 
             return true;

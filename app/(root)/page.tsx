@@ -1,5 +1,3 @@
-
-import { auth } from "@/auth";
 import GameCard, { GameCardType } from "@/components/GameCard";
 import SearchForm from "@/components/SearchForm";
 import { sanityFetch, SanityLive } from "@/sanity/lib/live";

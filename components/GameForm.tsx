@@ -12,6 +12,11 @@ import { toast } from 'sonner';
 import { createDescription } from "@/lib/actions";
 import { useRouter } from "next/navigation";
 
+export type FormState = {
+  success: boolean
+  message?: string
+}
+
 const categoriesList: string[] = ['PS', 'PS1', 'PS2', 'PS3', 'PC', 'NES', 'SNES', 'N64', 'GB', 'GBA', 'NS', 'XBOX']
 
 const formInitialState = { error: '', status: 'INITIAL' }
@@ -25,7 +30,7 @@ const GameForm = () => {
 
   const router = useRouter();
 
-  const handleFormSubmit = async (prevState: any, formData: FormData) => {
+  const handleFormSubmit = async (prevState: FormState, formData: FormData) => {
     try {
       const formValues = {
         title: formData.get("title") as string,
@@ -72,12 +77,10 @@ const GameForm = () => {
 
         return { ...prevState, error: "Validation failed", status: "ERROR" };
       }
-    } finally {
-
     }
   }
 
-  const [state, formAction, isPending] = useActionState(handleFormSubmit, formInitialState);
+  const [formAction, isPending] = useActionState(handleFormSubmit, formInitialState);
 
   const addCategory = (category: string) => {
     if (!selectedCategories.includes(category)) {
@@ -212,10 +215,13 @@ const GameForm = () => {
         {errors.genres && <p>{errors.genres}</p>}
       </div>
 
-      <Button type="submit" className="game-form_btn" disabled={isPending}>
+      {typeof isPending === "boolean" ? <Button type="submit" className="game-form_btn" disabled={isPending}>
         {isPending ? "Enviando..." : "Agregar Juego"}
         <Send className="size-6 ml-2" />
-      </Button>
+      </Button> : <Button type="submit" className="game-form_btn">
+        Agregar Juego
+        <Send className="size-6 ml-2" />
+      </Button>}
 
     </form>
   );
